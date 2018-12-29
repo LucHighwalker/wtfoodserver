@@ -12,6 +12,8 @@ pids
 .idea
 
 # OS generated files
+.directory
+*/.directory
 .DS_Store
 .DS_Store?
 ._*
