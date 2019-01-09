@@ -2,6 +2,16 @@ const MenuModel = require('../models/menu');
 const auth = require('../auth/auth.controller');
 const db = require('../database/database.controller');
 
+function getMenu(menuId) {
+  return new Promise((resolve, reject) => {
+    db.getOne(MenuModel, menuId).then((menu) => {
+      resolve(menu);
+    }).catch((error) => {
+      reject(error);
+    });
+  });
+}
+
 function saveMenu(token, menu) {
   return new Promise((resolve, reject) => {
     auth
@@ -37,5 +47,6 @@ function saveMenu(token, menu) {
 }
 
 module.exports = {
+  getMenu,
   saveMenu
 };
