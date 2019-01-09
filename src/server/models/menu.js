@@ -23,37 +23,39 @@ const menuSchema = new Schema({
     type: String,
     required: true
   },
-  categories: [
-    {
-      name: {
-        type: String
-      },
-      items: [
-        {
-          name: {
-            type: String,
-            required: true
-          },
-          price: {
-            type: Number
-          },
-          desc: {
-            type: String
-          },
-          main_ingr: [
-            {
-              type: String
-            }
-          ],
-          other_ingr: [
-            {
-              type: String
-            }
-          ]
-        }
-      ]
-    }
+  menu: [
   ]
+  // categories: [
+  //   {
+  //     name: {
+  //       type: String
+  //     },
+  //     items: [
+  //       {
+  //         name: {
+  //           type: String,
+  //           required: true
+  //         },
+  //         price: {
+  //           type: Number
+  //         },
+  //         desc: {
+  //           type: String
+  //         },
+  //         main_ingr: [
+  //           {
+  //             type: String
+  //           }
+  //         ],
+  //         other_ingr: [
+  //           {
+  //             type: String
+  //           }
+  //         ]
+  //       }
+  //     ]
+  //   }
+  // ]
 });
 
 module.exports = mongoose.model('Menu', menuSchema);

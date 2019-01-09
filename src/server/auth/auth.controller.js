@@ -28,10 +28,7 @@ function getUser(token) {
           if (err) {
             reject(err);
           } else {
-            resolve({
-              _id: resp._id,
-              email: resp.email
-            });
+            resolve(resp);
           }
         }
       );

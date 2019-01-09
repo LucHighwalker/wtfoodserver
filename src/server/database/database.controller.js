@@ -1,6 +1,6 @@
-function getOne(model, id) {
+function getOne(Model, id) {
   return new Promise((resolve, reject) => {
-    model.findById(id, (error, response) => {
+    Model.findById(id, (error, response) => {
       if (error) {
         reject(error);
       } else {
@@ -10,10 +10,10 @@ function getOne(model, id) {
   });
 }
 
-function getAll(model, search = {}) {
+function getAll(Model, search = {}) {
   return new Promise((resolve, reject) => {
     const query = search;
-    model.find(query, (error, response) => {
+    Model.find(query, (error, response) => {
       if (error) {
         reject(error);
       } else {
@@ -23,28 +23,28 @@ function getAll(model, search = {}) {
   });
 }
 
-function save(newModel) {
+function save(model) {
   return new Promise((resolve, reject) => {
-    const model = newModel;
+    const Model = model;
     const now = new Date();
-    model.updatedAt = now;
-    if (!model.createdAt) {
-      model.createdAt = now;
+    Model.updatedAt = now;
+    if (!Model.createdAt) {
+      Model.createdAt = now;
     }
 
-    model.save((error) => {
+    Model.save((error) => {
       if (error) {
         reject(error);
       } else {
-        resolve(model);
+        resolve(Model);
       }
     });
   });
 }
 
-function del(model, id) {
+function del(Model, id) {
   return new Promise((resolve, reject) => {
-    model.deleteOne({
+    Model.deleteOne({
       _id: id
     }, (err) => {
       if (err) {
