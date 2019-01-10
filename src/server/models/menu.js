@@ -13,6 +13,14 @@ const menuSchema = new Schema({
       required: true
     }
   },
+  editedBy: {
+    email: {
+      type: String
+    },
+    _id: {
+      type: Schema.Types.ObjectId
+    }
+  },
   createdAt: {
     type: Date
   },
@@ -23,7 +31,7 @@ const menuSchema = new Schema({
     type: String,
     required: true
   },
-  menu: [
+  body: [
     {
       class: { type: String },
       icon: { type: String },

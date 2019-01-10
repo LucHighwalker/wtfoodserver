@@ -42,13 +42,28 @@ function save(model) {
   });
 }
 
+function update(Model, id, data) {
+  return new Promise((resolve, reject) => {
+    Model.update({
+      _id: id
+    },
+    data, (error) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve();
+      }
+    });
+  });
+}
+
 function del(Model, id) {
   return new Promise((resolve, reject) => {
     Model.deleteOne({
       _id: id
-    }, (err) => {
-      if (err) {
-        reject(err);
+    }, (error) => {
+      if (error) {
+        reject(error);
       } else {
         resolve();
       }
@@ -61,5 +76,6 @@ module.exports = {
   getOne,
   getAll,
   save,
+  update,
   del
 };
