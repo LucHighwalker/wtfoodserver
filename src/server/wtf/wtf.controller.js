@@ -17,7 +17,7 @@ function getMenu(menuId) {
 function saveMenu(token, menu) {
   return new Promise((resolve, reject) => {
     auth
-      .getUser(token)
+      .getUser(token, true)
       .then((user) => {
         if (menu._id) {
           editMenu(user, menu).then((menuUpdate) => {
