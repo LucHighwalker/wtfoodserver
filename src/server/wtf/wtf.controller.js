@@ -44,6 +44,7 @@ function editMenu(user, menu) {
     const now = new Date();
 
     db.update(MenuModel, menu._id, {
+      menuName: menu.menuName,
       body: menu.body,
       updatedAt: now,
       editedBy: {
