@@ -31,6 +31,14 @@ const menuSchema = new Schema({
     type: String,
     required: true
   },
+  dates: {
+    begin: {
+      type: Date
+    },
+    end: {
+      type: Date
+    }
+  },
   body: [
     {
       class: { type: String },
