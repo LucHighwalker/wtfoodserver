@@ -35,6 +35,31 @@ router.get('/getperm/:menuId', (req, res) => {
   });
 });
 
+router.post('/addperm/:menuId', (req, res) => {
+  const menuId = req.params.menuId;
+  const token = req.body.token ? req.body.token : null;
+  const email = req.body.email ? req.body.email : null;
+  if (token !== null && email !== null) {
+    controller.addPermission(token, email, menuId).then((menu) => {
+      res.json({
+        addperm: 'success',
+        menu
+      });
+    }).catch((error) => {
+      res.json({
+        addperm: 'fail',
+        error
+      });
+    });
+  } else {
+    // res.sendStatus(401);
+    res.json({
+      addperm: 'fail',
+      error: token === null ? 'missing token' : 'missing email'
+    });
+  }
+});
+
 router.post('/save', (req, res) => {
   const token = req.body.token ? req.body.token : null;
   const menu = req.body.menu ? req.body.menu : null;

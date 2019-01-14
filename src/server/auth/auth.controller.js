@@ -24,6 +24,7 @@ function getUser(token, model = false) {
         _id: decodedToken._id
       })
         .populate('menus')
+        .populate('permissions')
         .exec((err, resp) => {
           if (err) {
             reject(err);

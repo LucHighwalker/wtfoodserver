@@ -56,14 +56,16 @@ function getOne(Model, id, populates = []) {
   });
 }
 
-function getAll(Model, search = {}) {
+function find(Model, search = {}) {
   return new Promise((resolve, reject) => {
     const query = search;
     Model.find(query, (error, response) => {
       if (error) {
         reject(error);
-      } else {
+      } else if (response.length > 1) {
         resolve(response);
+      } else {
+        resolve(response[0]);
       }
     });
   });
@@ -125,7 +127,7 @@ function del(Model, id) {
 
 module.exports = {
   getOne,
-  getAll,
+  find,
   save,
   update,
   del

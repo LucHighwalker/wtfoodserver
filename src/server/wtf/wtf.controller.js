@@ -1,4 +1,5 @@
 const MenuModel = require('../models/menu');
+const UserModel = require('../models/user.js');
 const auth = require('../auth/auth.controller');
 const db = require('../database/database.controller');
 
@@ -23,6 +24,41 @@ function getPermissions(menuId) {
           menuName: menu.menuName,
           permissions: menu.permissions
         });
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
+function addPermission(token, email, menuId) {
+  return new Promise((resolve, reject) => {
+    db.find(UserModel, {
+      email
+    })
+      .then((user) => {
+        user.permissions.unshift(menuId);
+        db.save(user)
+          .then(() => {
+            db.getOne(MenuModel, menuId).then((menu) => {
+              const permissions = menu.editPermission;
+              permissions.push(user._id);
+              db.update(MenuModel, menu._id, {
+                editPermission: permissions
+              })
+                .then(() => {
+                  resolve(menu);
+                })
+                .catch((error) => {
+                  reject(error);
+                });
+            }).catch((error) => {
+              reject(error);
+            });
+          })
+          .catch((error) => {
+            reject(error);
+          });
       })
       .catch((error) => {
         reject(error);
@@ -67,7 +103,6 @@ function editMenu(user, menu) {
       db.update(MenuModel, menu._id, {
         menuName: menu.menuName,
         dates: menu.dates,
-        permissions: menu.permissions,
         body: menu.body,
         updatedAt: now,
         editedBy: {
@@ -121,24 +156,27 @@ function newMenu(user, menuNew) {
 // Helpers
 
 function hasPermission(user, menu) {
-  // TODO: Why is createdBy._id read as a string?
-  if (user._id.toString() === menu.createdBy._id) {
-    return true;
+  const userId = user._id.toString();
+  let permission = false;
+
+  if (userId === menu.createdBy._id) {
+    permission = true;
   }
 
   /* eslint-disable consistent-return */
   menu.editPermission.forEach((id) => {
-    if (user._id === id) {
-      return true;
+    if (userId === id) {
+      permission = true;
     }
   });
   /* eslint-enable consistent-return */
 
-  return false;
+  return permission;
 }
 
 module.exports = {
   getMenu,
   getPermissions,
+  addPermission,
   saveMenu
 };
