@@ -31,6 +31,7 @@ function getUser(token, model = false) {
             resolve({
               email: resp.email,
               menus: resp.menus,
+              permissions: resp.permissions,
               _id: resp._id
             });
           } else {

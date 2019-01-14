@@ -1,12 +1,58 @@
-function getOne(Model, id) {
+function getOne(Model, id, populates = []) {
   return new Promise((resolve, reject) => {
-    Model.findById(id, (error, response) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve(response);
-      }
-    });
+    switch (populates.length) {
+      case 0:
+        Model.findById(id, (error, response) => {
+          if (error) {
+            reject(error);
+          } else {
+            resolve(response);
+          }
+        });
+        break;
+
+      case 1:
+        Model.findById(id)
+          .populate(populates[0])
+          .exec((error, response) => {
+            if (error) {
+              reject(error);
+            } else {
+              resolve(response);
+            }
+          });
+        break;
+
+      case 2:
+        Model.findById(id)
+          .populate(populates[0])
+          .populate(populates[1])
+          .exec((error, response) => {
+            if (error) {
+              reject(error);
+            } else {
+              resolve(response);
+            }
+          });
+        break;
+
+      case 3:
+        Model.findById(id)
+          .populate(populates[0])
+          .populate(populates[1])
+          .populate(populates[2])
+          .exec((error, response) => {
+            if (error) {
+              reject(error);
+            } else {
+              resolve(response);
+            }
+          });
+        break;
+
+      default:
+        reject('too many populates');
+    }
   });
 }
 
@@ -44,33 +90,38 @@ function save(model) {
 
 function update(Model, id, data) {
   return new Promise((resolve, reject) => {
-    Model.update({
-      _id: id
-    },
-    data, (error) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve();
+    Model.update(
+      {
+        _id: id
+      },
+      data,
+      (error) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve();
+        }
       }
-    });
+    );
   });
 }
 
 function del(Model, id) {
   return new Promise((resolve, reject) => {
-    Model.deleteOne({
-      _id: id
-    }, (error) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve();
+    Model.deleteOne(
+      {
+        _id: id
+      },
+      (error) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve();
+        }
       }
-    });
+    );
   });
 }
-
 
 module.exports = {
   getOne,

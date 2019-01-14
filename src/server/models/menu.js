@@ -10,6 +10,7 @@ const menuSchema = new Schema({
     },
     _id: {
       type: Schema.Types.ObjectId,
+      ref: 'User',
       required: true
     }
   },
@@ -18,7 +19,8 @@ const menuSchema = new Schema({
       type: String
     },
     _id: {
-      type: Schema.Types.ObjectId
+      type: Schema.Types.ObjectId,
+      ref: 'User'
     }
   },
   createdAt: {
@@ -31,6 +33,10 @@ const menuSchema = new Schema({
     type: String,
     required: true
   },
+  editPermission: [{
+    type: Schema.Types.ObjectId,
+    ref: 'User'
+  }],
   dates: {
     begin: {
       type: Date

@@ -20,6 +20,21 @@ router.get('/get/:menuId', (req, res) => {
   });
 });
 
+router.get('/getperm/:menuId', (req, res) => {
+  const menuId = req.params.menuId;
+  controller.getPermissions(menuId).then((permObj) => {
+    res.json({
+      get: 'success',
+      permObj
+    });
+  }).catch((error) => {
+    res.json({
+      get: 'fail',
+      error
+    });
+  });
+});
+
 router.post('/save', (req, res) => {
   const token = req.body.token ? req.body.token : null;
   const menu = req.body.menu ? req.body.menu : null;

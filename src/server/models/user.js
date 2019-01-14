@@ -21,6 +21,12 @@ const userSchema = new Schema({
       type: Schema.Types.ObjectId,
       ref: 'Menu'
     }
+  ],
+  permissions: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Menu'
+    }
   ]
 });
 
