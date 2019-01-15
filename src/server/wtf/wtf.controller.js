@@ -17,12 +17,12 @@ function getMenu(menuId) {
 
 function getPermissions(menuId) {
   return new Promise((resolve, reject) => {
-    db.getOne(MenuModel, menuId, ['permissions'])
+    db.getOne(MenuModel, menuId, ['editPermission'])
       .then((menu) => {
         resolve({
           _id: menuId,
           menuName: menu.menuName,
-          permissions: menu.permissions
+          permissions: menu.editPermission
         });
       })
       .catch((error) => {
