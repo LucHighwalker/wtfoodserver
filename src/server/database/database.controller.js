@@ -1,57 +1,34 @@
 function getOne(Model, id, populates = []) {
   return new Promise((resolve, reject) => {
-    switch (populates.length) {
-      case 0:
-        Model.findById(id, (error, response) => {
-          if (error) {
-            reject(error);
-          } else {
-            resolve(response);
-          }
-        });
-        break;
+    if (populates.length > 0) {
+      let pops = '';
 
-      case 1:
-        Model.findById(id)
-          .populate(populates[0])
-          .exec((error, response) => {
-            if (error) {
-              reject(error);
-            } else {
-              resolve(response);
-            }
-          });
-        break;
+      for (let i = 0; i < populates.length; i += 1) {
+        if (populates[i].length > 10) {
+          reject(`populate string too long: ${populates[i]}`);
+        }
+        pops = `${pops}.populate(${populates[i]})`;
+      }
 
-      case 2:
-        Model.findById(id)
-          .populate(populates[0])
-          .populate(populates[1])
-          .exec((error, response) => {
-            if (error) {
-              reject(error);
-            } else {
-              resolve(response);
-            }
-          });
-        break;
+      const expression = `Model.findById(id)
+                          ${pops}
+                          .exec((error, response) => {
+                            if (error) {
+                              reject(error);
+                            } else {
+                              resolve(response);
+                            }
+                          });`;
 
-      case 3:
-        Model.findById(id)
-          .populate(populates[0])
-          .populate(populates[1])
-          .populate(populates[2])
-          .exec((error, response) => {
-            if (error) {
-              reject(error);
-            } else {
-              resolve(response);
-            }
-          });
-        break;
-
-      default:
-        reject('too many populates');
+      eval(expression); // eslint-disable-line
+    } else {
+      Model.findById(id, (error, response) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(response);
+        }
+      });
     }
   });
 }
